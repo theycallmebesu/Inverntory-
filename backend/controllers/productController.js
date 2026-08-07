@@ -1,7 +1,7 @@
 const { Product, Supplier } = require('../models');
 
-// GET /api/products
-exports.getAllProducts = async (req, res) => {
+// GET /api/products/s
+exports.getAllProducts = async (req, res) => { 
   try {
     const products = await Product.findAll({
       include: [{ model: Supplier, attributes: ['id', 'name', 'email', 'phone'] }],
