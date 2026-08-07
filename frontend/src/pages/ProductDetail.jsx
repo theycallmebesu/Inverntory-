@@ -33,7 +33,7 @@ const ProductDetail = () => {
             {product.image && (
               <div style={{ textAlign: 'center' }}>
                 <img
-                  src={`http://localhost:5000/uploads/${product.image}`}
+                  src={`${import.meta.env.DEV ? (import.meta.env.VITE_API_BASE_DEV || 'http://localhost:5000').replace('/api', '') : (import.meta.env.VITE_API_BASE_PROD || '').replace('/api', '')}/uploads/${product.image}`}
                   alt={product.name}
                   className="product-detail-img"
                 />
