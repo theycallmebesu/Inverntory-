@@ -117,87 +117,91 @@ const ProductList = () => {
           </select>
         </div>
 
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Price (NPR)</th>
-              <th>Quantity</th>
-              <th>Supplier</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => {
-                // Low stock alert: If quantity < 5, light red background
-                const isLowStock = product.quantity < 5;
-                return (
-                  <tr key={product.id} className={isLowStock ? 'low-stock-row' : ''}>
-                    <td>
-                      {product.image ? (
-                        <img
-                          src={`${import.meta.env.DEV ? (import.meta.env.VITE_API_BASE_DEV || 'http://localhost:5000').replace('/api', '') : (import.meta.env.VITE_API_BASE_PROD || '').replace('/api', '')}/uploads/${product.image}`}
-                          alt={product.name}
-                          className="product-thumb"
-                        />
-                      ) : (
-                        <span className="no-image">No img</span>
-                      )}
-                    </td>
-                    <td>{product.name}</td>
-                    <td>NPR {Number(product.price).toFixed(2)}</td>
-                    <td>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <button 
-                          onClick={() => handleQuantityChange(product.id, -1)}
-                          style={{ padding: '2px 8px', cursor: 'pointer' }}
-                        >-</button>
-                        <span>{modifiedQuantities[product.id] !== undefined ? modifiedQuantities[product.id] : product.quantity}</span>
-                        <button 
-                          onClick={() => handleQuantityChange(product.id, 1)}
-                          style={{ padding: '2px 8px', cursor: 'pointer' }}
-                        >+</button>
-                        {isLowStock && <strong style={{ color: '#dc2626' }}>(Low Stock)</strong>}
-                        
-                        {modifiedQuantities[product.id] !== undefined && modifiedQuantities[product.id] !== product.quantity && (
-                          <button 
-                            onClick={() => handleUpdateQuantity(product.id)}
-                            style={{ padding: '2px 8px', backgroundColor: '#4caf50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                          >
-                            Save
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                    <td>{product.Supplier ? product.Supplier.name : 'N/A'}</td>
-                    <td>
-                      <Link to={`/products/view/${product.id}`} className="btn-view">
-                        View
-                      </Link>
-                      <Link to={`/products/edit/${product.id}`} className="btn-edit">
-                        Edit
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(product.id, product.name)}
-                        className="btn-danger"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
+        <div className="table-responsive">
+          <table className="product-table">
+            <thead>
               <tr>
-                <td colSpan="6" style={{ textAlign: 'center' }}>
-                  No products found.
-                </td>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price (NPR)</th>
+                <th>Quantity</th>
+                <th>Supplier</th>
+                <th>Actions</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => {
+                  // Low stock alert: If quantity < 5, light red background
+                  const isLowStock = product.quantity < 5;
+                  return (
+                    <tr key={product.id} className={isLowStock ? 'low-stock-row' : ''}>
+                      <td>
+                        {product.image ? (
+                          <img
+                            src={`${import.meta.env.DEV ? (import.meta.env.VITE_API_BASE_DEV || 'http://localhost:5000').replace('/api', '') : (import.meta.env.VITE_API_BASE_PROD || '').replace('/api', '')}/uploads/${product.image}`}
+                            alt={product.name}
+                            className="product-thumb"
+                          />
+                        ) : (
+                          <span className="no-image">No img</span>
+                        )}
+                      </td>
+                      <td>{product.name}</td>
+                      <td>NPR {Number(product.price).toFixed(2)}</td>
+                      <td>
+                        <div className="quantity-controls">
+                          <button 
+                            onClick={() => handleQuantityChange(product.id, -1)}
+                            className="qty-btn"
+                          >-</button>
+                          <span>{modifiedQuantities[product.id] !== undefined ? modifiedQuantities[product.id] : product.quantity}</span>
+                          <button 
+                            onClick={() => handleQuantityChange(product.id, 1)}
+                            className="qty-btn"
+                          >+</button>
+                          {isLowStock && <strong className="low-stock-text">(Low Stock)</strong>}
+                          
+                          {modifiedQuantities[product.id] !== undefined && modifiedQuantities[product.id] !== product.quantity && (
+                            <button 
+                              onClick={() => handleUpdateQuantity(product.id)}
+                              className="qty-save-btn"
+                            >
+                              Save
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                      <td>{product.Supplier ? product.Supplier.name : 'N/A'}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <Link to={`/products/view/${product.id}`} className="btn-view">
+                            View
+                          </Link>
+                          <Link to={`/products/edit/${product.id}`} className="btn-edit">
+                            Edit
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(product.id, product.name)}
+                            className="btn-danger"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: 'center' }}>
+                    No products found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
