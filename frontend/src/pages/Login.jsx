@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
 import { AuthContext } from '../context/AuthContext';
-import '../styles/login.css';
 import '../styles/common.css';
+import '../styles/login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -37,9 +37,16 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <div className="developer-credit">
+        Developed By: Bishu Maharjan
+      </div>
+      
       <div className="login-card">
         <h2>Login</h2>
+        <p>Welcome to our Inventory Management</p>
+        
         {errorMsg && <div className="alert-error">{errorMsg}</div>}
+        
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
@@ -51,6 +58,7 @@ const Login = () => {
               placeholder="Enter username"
             />
           </div>
+          
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
@@ -61,7 +69,8 @@ const Login = () => {
               placeholder="Enter password"
             />
           </div>
-          <button type="submit" className="btn-primary btn-block">
+          
+          <button type="submit" className="btn-block">
             Login
           </button>
         </form>
