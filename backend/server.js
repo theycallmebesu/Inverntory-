@@ -40,12 +40,12 @@ const initializeDatabase = async () => {
     // Check and create default admin user only if no users exist
     const userCount = await User.count();
     if (userCount === 0) {
-      const hashedPassword = await bcrypt.hash('admin123', 10);
+      const hashedPassword = await bcrypt.hash('test', 10);
       await User.create({
-        username: 'admin',
+        username: 'bishu',
         password: hashedPassword
       });
-      console.log('Default admin user created (Username: admin, Password: admin123)');
+      console.log('Default admin user created (Username: bishu, Password: test)');
     }
 
     // Seed default sample suppliers if empty
